@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
+    <meta name="keywords" content="hexo, autumn" />
+    <title>
+        Hexo
+    </title>
+    <!-- favicon -->
+    
+    <link rel="icon" href="https://cdn.jsdelivr.net/gh/frontendsophie/hexo-theme-autumn@1.0.0/source/img/favicon.ico" />
+     
+<link rel="stylesheet" href="/css/style.css">
+
+
+    <!-- highlight -->
+    <link rel="stylesheet" href="https://cdn.bootcss.com/highlight.js/9.12.0/styles/github-gist.min.css" />
+    <script src="//cdn.bootcss.com/highlight.js/9.2.0/highlight.min.js"></script>
+    <script>
+        hljs.initHighlightingOnLoad()
+    </script>
+    <script src="https://cdn.jsdelivr.net/gh/frontendsophie/hexo-infinite-scroll@2.0.0/dist/main.js"></script>
+
+    <script>
+        infiniteScroll()
+
+        window.addEventListener('DOMContentLoaded', function () {
+            const [
+                mainTitle,
+                mobileMenu,
+                mobileMainTitle,
+                mobileMenuBtn,
+                ipadMenuBtn,
+                aside,
+                closeBtn,
+            ] = getEle(
+                '#main-title',
+                '.mobile-menu',
+                '.mobile-menu h3',
+                '.mobile-menu button',
+                '.ipad-menu',
+                'aside',
+                'aside .close',
+            )
+            const io = new IntersectionObserver(entries => {
+                if (entries[0].intersectionRatio <= 0) {
+                    mobileMainTitle.classList.remove('invisibile')
+                } else {
+                    mobileMainTitle.classList.add('invisibile')
+                }
+            })
+            io.observe(mainTitle)
+
+            clickToggleAside(mobileMenuBtn)
+            clickToggleAside(ipadMenuBtn)
+            clickToggleAside(closeBtn, false)
+
+            const isMenuVisible = window.getComputedStyle(mobileMenu).display !== 'none'
+            if (isMenuVisible) document.body.style.background = 'none'
+
+            function getEle(...args) {
+                return args.map(arg => document.querySelector(arg))
+            }
+
+            function clickToggleAside(btn, show = true) {
+                btn.addEventListener('click', function () {
+                    if (show) {
+                        aside.style.display = 'block'
+                    } else {
+                        aside.style.display = 'none'
+                    }
+                })
+            }
+        })
+    </script>
+<meta name="generator" content="Hexo 4.1.1"></head>
+
+<body style="background: url(https://cdn.jsdelivr.net/gh/frontendsophie/hexo-theme-autumn@1.0.0/source/img/button-bg.png) #f3f3f3">
+    <div class="container">
+        <header class="header">
+    <nav class="mobile-menu" style="background: url(https://cdn.jsdelivr.net/gh/frontendsophie/hexo-theme-autumn@1.0.0/source/img/button-bg.png) #f3f3f3">
+        <h3 class="invisibile">
+            <a href="/" class="logo">
+                Hexo
+            </a>
+        </h3>
+        <button class="menu">menu</button>
+    </nav>
+
+    <button class="ipad-menu menu">menu</button>
+
+    <h1 class="title" id="main-title">
+        <a href="/" class="logo">
+            Hexo
+        </a>
+    </h1>
+    <h2 class="desc">
+        
+    </h2>
+
+    <div class="links">
+        <ul>
+            
+            <li>
+                <a href="https://github.com/FrontendSophie" target="_blank" rel="noopener">
+                    Github
+                </a>
+            </li>
+            
+            <li>
+                <a href="https://www.linkedin.com/in/frontendsophie/" target="_blank" rel="noopener">
+                    LinkedIn
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+</header>
+        <main class="main">
+            <article class="post">
+    
+    
+    
+    <h2 class="post-title">
+        MTH
+    </h2>
+    <ul class="post-date">
+        <li>
+            2019-12-12
+        </li>
+        <li>
+            John Doe
+        </li>
+    </ul>
+    <div class="post-content">
+        <h1 id="互斥锁和信号量"><a href="#互斥锁和信号量" class="headerlink" title="互斥锁和信号量"></a>互斥锁和信号量</h1><p><img src="C:%5CUsers%5CWT043%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1573461466123.png" alt="1573461466123"></p>
+<p><strong>互斥量用于线程的互斥，信号量用于线程的同步</strong></p>
+<p>这是互斥量和信号量的根本区别，也就是互斥和同步之间的区别。</p>
+<p>互斥：是指某一资源同时只允许一个访问者对其进行访问，具有唯一性和排它性。但互斥无法限制访问者对资源的访问顺序，即访问是无序的。</p>
+<p>同步：是指在互斥的基础上（大多数情况），通过其它机制实现访问者对资源的有序访问。在大多数情况下，同步已经实现了互斥，特别是所有写入资源的情况必定是互斥的。少数情况是指可以允许多个访问者同时访问资源</p>
+<p><img src="C:%5CUsers%5CWT043%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1573462294981.png" alt="1573462294981"></p>
+<h2 id="信号量"><a href="#信号量" class="headerlink" title="信号量"></a>信号量</h2><p><strong>创建信号量</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">HANDLE <span class="title">CreateSemaphore</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">  LPSECURITY_ATTRIBUTES lpSemaphoreAttributes,  <span class="comment">// SD</span></span></span></span><br><span class="line"><span class="function"><span class="params">  LONG lInitialCount,                          <span class="comment">// initial count</span></span></span></span><br><span class="line"><span class="function"><span class="params">  LONG lMaximumCount,                          <span class="comment">// maximum count</span></span></span></span><br><span class="line"><span class="function"><span class="params">  LPCTSTR lpName                           <span class="comment">// object name</span></span></span></span><br><span class="line"><span class="function"><span class="params">)</span></span></span><br></pre></td></tr></table></figure>
+
+<p>lpSemaphoreAttributes：为信号量的属性，一般可以设置为NULL<br>lInitialCount：信号量初始值，必须大于等于0，而且小于等于 lpMaximumCount，如果lInitialCount 的初始值为0，则该信号量默认为unsignal状态，如果lInitialCount的初始值大于0，则该信号量默认为signal状态，<br>lMaximumCount： 此值为设置信号量的最大值，必须大于0<br>lpName：信号量的名字，长度不能超出MAX_PATH ，可设置为NULL，表示无名的信号量。lpName不为空时，可创建有名的信号量，若当前信号量名与已存在的信号量的名字相同时，则该函数表示打开该信号量，这时参数lInitialCount 和 lMaximumCount 将被忽略。<br>函数调用成功返回信号量句柄。</p>
+<p><strong>等待信号量</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">WaitForSingleObject( HANDLE hHandle, DWORDdwMilliseconds)</span><br></pre></td></tr></table></figure>
+
+<p>有两个参数，分别是THandle和Timeout(毫秒单位)。</p>
+<p>如果想要等待一条线程，那么你需要指定线程的Handle，以及相应的Timeout时间。当然，如果你想无限等待下去，Timeout参数可以指定系统常量INFINITE。</p>
+<h2 id="死锁"><a href="#死锁" class="headerlink" title="死锁"></a>死锁</h2><p>具有等待队列的信号量实现可能导致这样的情况：两个或多个进程无限等待一个事件，而该事件只能由这些等待进程之一来产生。当出现这样的状态时，这些进程就为死锁。</p>
+<h1 id="内存池的设计"><a href="#内存池的设计" class="headerlink" title="内存池的设计"></a>内存池的设计</h1><p>整个内存池由多个块组成，每个块又由多个槽组成，每个块的槽的大小由小到大。</p>
+<p>FRWK_MEM_POOL_S frwk_stMemPoolCfg[]</p>
+<p>块的数量：sizeof(frwk_stMemPoolCfg)/sizeof(FRWK_MEM_POOL_S)</p>
+<p><strong>每个块的状态由一个块状态头标识：</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">        UINT8 *pucPool;     <span class="comment">/*this is the poniter of the pool space*/</span></span><br><span class="line">        UINT32  ucFull;      <span class="comment">/*tell whether the pool is out of use*/</span></span><br><span class="line">        UINT32 usAlignSize; <span class="comment">/*the align size of block size of this pool according user block size and header,tail*/</span></span><br><span class="line">        UINT32 ulFreeIdx;   <span class="comment">/*the free index of this pool,just current use. we may delete it*/</span></span><br><span class="line">        FRWK_MEM_POOL_S stBlokcInfo; <span class="comment">/*a structure to remember the pool configure info*/</span></span><br><span class="line">        UINT32 ulUsedNb;             <span class="comment">/*remember the used block number of this pool*/</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifdef</span> FRWK_MEM_ANALYZE_ENABLE    </span></span><br><span class="line">        UINT32 ulUsedEverMaxNb;      <span class="comment">/*remember the maximum block number of this pool*/</span></span><br><span class="line">		</span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line">&#125;FRWK_MEM_POOL_HEADER_S;</span><br></pre></td></tr></table></figure>
+
+<p>*pucPool是每个块的起始地址</p>
+<p>usAlignSize是实际每个槽的大小 = 槽数据空间 + 槽的状态头 + 槽的状态尾，再四字节对其。</p>
+<p>ucFull是标识该块是否溢出</p>
+<p>ulFreeIdx表示在该块中第一个空闲槽的索引</p>
+<p>stBlockInfo记录该块的信息：槽的大小和数量</p>
+<p>ulUseNb标识已经使用的槽的数量</p>
+<p><strong>每个槽有一个槽状态头</strong></p>
+<p>==该状态头存在槽的起始位置，槽头的后面才是数据==</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">        UINT32 ulUsed;          <span class="comment">/*tell this block whether is in use*/</span></span><br><span class="line">        UINT32 ulMallocSize;    <span class="comment">/*tell the actual size of user allocated of this block*/</span></span><br><span class="line">        UINT32 ulNext;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifdef</span> FRWK_MEM_ANALYZE_ENABLE</span></span><br><span class="line">        UINT8  strFileName[FRWK_MEM_ANALYZE_FILENAME_MAX_LEN];<span class="comment">/*the file name of this block is allocated by*/</span></span><br><span class="line">        UINT32 ulLineNb;        <span class="comment">/*the file line number of this block is allocated by*/</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line">&#125;FRWK_MEM_BLOCK_HEADER_INFO_S;</span><br></pre></td></tr></table></figure>
+
+<p>ulUsed表示槽是否被使用</p>
+<p>ulMallocSize表示槽内实际存的<strong>数据</strong>大小</p>
+<p>ulNext表示下一个槽的索引</p>
+<p>最后的两个参数用来表示槽溢出的代码定位</p>
+<h2 id="根据大小进行内存分配"><a href="#根据大小进行内存分配" class="headerlink" title="根据大小进行内存分配"></a>根据大小进行内存分配</h2><ul>
+<li><p>将大小进行四字节对齐</p>
+<p><a href="https://blog.csdn.net/zkf11387/article/details/7662450" target="_blank" rel="noopener">字节对齐详解</a></p>
+</li>
+</ul>
+<blockquote>
+<p>四字节对齐因为在初始化的时候，malloc分配内存池的时候就是按照四字节对其进行分配的，在32位系统中，默认四字节对齐，四字节对齐使得内存访问速度更快，它是每四个字节一存。</p>
+<p>　　 对于标准数据类型，它的地址只要是它的长度的整数倍就行了，而非标准数据类型按下面的原则对齐：<br>　　<br>　　数组 ：按照基本数据类型对齐，第一个对齐了后面的自然也就对齐了。<br>　　联合 ：按其包含的长度最大的数据类型对齐。<br>　　结构体： 结构体中每个数据类型都要对齐。<br>　　比如有如下一个结构体：<br>　　<br>　　struct stu{<br>　　 char sex;<br>　　 int length;<br>　　 char name[10];<br>　　};<br>　　struct stu my_stu;<br>　　<br>　　<br>　　由于在x86下，GCC默认按4字节对齐，它会在sex后面跟name后面分别填充三个和两个字节使length和整个结构体对齐。于是我们sizeof(my_stu)会得到长度为20，而不是15.</p>
+<p>==<strong>attribute</strong>选项==</p>
+<p>我们可以按照自己设定的对齐大小来编译程序，GNU使用<strong>attribute</strong>选项来设置，比如我们想让刚才的结构按一字节对齐，我们可以这样定义结构体<br>　　<br>　　struct stu{<br>　　 char sex;<br>　　 int length;<br>　　 char name[10];<br>　　}<strong>attribute</strong> ((aligned (1)));<br>　　<br>　　struct stu my_stu;<br>　　<br>　　<br>　　则sizeof(my_stu)可以得到大小为15。<br>　　<br>　　上面的定义等同于<br>　　<br>　　struct stu{<br>　　 char sex;<br>　　 int length;<br>　　 char name[10];<br>　　}<strong>attribute</strong> ((packed));<br>　　struct stu my_stu;<br>　　<br>　　<br>　　<strong>attribute</strong>((packed))得变量或者结构体成员使用最小的对齐方式，即对变量是一字节对齐，对域（field）是位对齐.</p>
+<p>==更改C编译器的缺省字节对齐方式==</p>
+<p>在缺省情况下，C编译器为每一个变量或是数据单元按其自然对界条件分配空间。一般地，可以通过下面的方法来改变缺省的对界条件：<br>· 使用伪指令#pragma pack (n)，C编译器将按照n个字节对齐。<br>· 使用伪指令#pragma pack ()，取消自定义字节对齐方式。</p>
+<p>另外，还有如下的一种方式：<br>· <strong>attribute((aligned (n)))，让所作用的结构成员对齐在n字节自然边界上。如果结构中有成员的长度大于n，则按照最大成员的长度来对齐。<br>· __attribute</strong> ((packed))，取消结构在编译过程中的优化对齐，按照实际占用字节数进行对齐。</p>
+<p> 如果在编程的时候要考虑节约空间的话,那么我们只需要假定结构的首地址是0,然后各个变量按照上面的原则进行排列即可,基本的原则就是把结构中的变量按照类型大小从小到大声明,尽量减少中间的填补空间.还有一种就是为了以空间换取时间的效率,我们显示的进行填补空间进行对齐,比如:有一种使用空间换时间做法是显式的插入reserved成员：<br>          struct A{<br>            char a;<br>            char reserved[3];//使用空间换时间<br>            int b;<br>            }</p>
+</blockquote>
+<ul>
+<li>根据大小找到一个合适的且槽未装满的块</li>
+<li>取出数据头作为返回值，取出槽状态头修改状态</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">pMemory = frwk_stMemPool[ulVi].pucPool + frwk_stMemPool[ulVi].ulFreeIdx* 											frwk_stMemPool[ulVi].usAlignSize</span><br><span class="line">                                        + <span class="keyword">sizeof</span>(FRWK_MEM_BLOCK_HEADER_INFO_S);</span><br><span class="line">pHeader= (FRWK_MEM_BLOCK_HEADER_INFO_S *)(frwk_stMemPool[ulVi].pucPool+frwk_stMemPool[ulVi].ulFreeIdx* frwk_stMemPool[ulVi].usAlignSize);</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>修改槽状态头：ulMallocSize,ulUsed; 修改槽状态尾：usTail</li>
+<li>修改块状态头：ulUsedNb++(检查块中槽是否已满)，ulFreeIdx = ulNext</li>
+</ul>
+<h2 id="根据数据地址进行内存释放"><a href="#根据数据地址进行内存释放" class="headerlink" title="根据数据地址进行内存释放"></a>根据数据地址进行内存释放</h2><p>内存释放就是修改块状态头和槽状态头的值</p>
+<ul>
+<li>取出槽状态头和槽状态尾</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">FRWK_MEM_BLOCK_HEADER_INFO_S *pMemHeader = (FRWK_MEM_BLOCK_HEADER_INFO_S*) ((UINT8*)pMemory-<span class="keyword">sizeof</span>(FRWK_MEM_BLOCK_HEADER_INFO_S));</span><br><span class="line">FRWK_MEM_BLOCK_TAIL_INFO_S *pMemTail = (FRWK_MEM_BLOCK_TAIL_INFO_S*)((UINT8*)pMemory+pMemHeader-&gt;ulMallocSize);</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>根据数据的起始地址找到对应的块</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(pMemory &gt;= (<span class="keyword">void</span>*) frwk_stMemPool[ulVi].pucPool) &amp;&amp; (pMemory &lt; (<span class="keyword">void</span>*) (frwk_stMemPool[ulVi].pucPool + frwk_stMemPool[ulVi].usAlignSize * frwk_stMemPoolCfg[ulVi].ulBlockNum))</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>检查槽状态尾的值是否被修改，修改了说明溢出了</li>
+<li>修改槽状态头和块状态头的值</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*set the use flag to false*/</span></span><br><span class="line">pMemHeader-&gt;ulUsed = FEMTO_FALSE;</span><br><span class="line">frwk_stMemPool[ulVi].ucFull =  FEMTO_FALSE;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*****below is for memory usage rate*/</span></span><br><span class="line">frwk_stMemPool[ulVi].ulUsedNb--;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*****below is for memory overlap*/</span></span><br><span class="line">pMemTail-&gt;usTail = FEMTO_NULL;</span><br><span class="line"></span><br><span class="line">pMemHeader-&gt;ulNext = frwk_stMemPool[ulVi].ulFreeIdx;</span><br><span class="line">frwk_stMemPool[ulVi].ulFreeIdx = (UINT32)(((<span class="keyword">size_t</span>)pMemHeader-(<span class="keyword">size_t</span>) frwk_stMemPool[ulVi].pucPool)/frwk_stMemPool[ulVi].usAlignSize);</span><br><span class="line"></span><br><span class="line">pMemHeader-&gt;ulMallocSize = FEMTO_NULL;</span><br><span class="line">freeResult = FEMTO_TRUE;</span><br><span class="line">frwk_Trace (MID_FRWK, TRACE_DETAILS,<span class="string">"free success,%p,header:%d,next:%d\n"</span>,</span><br><span class="line">            pMemory,frwk_stMemPool[ulVi].ulFreeIdx,pMemHeader-&gt;ulNext);</span><br><span class="line">frwk_MutexUnlock (&amp;frwk_stMemMallocMutex);                                                                                        </span><br><span class="line"><span class="keyword">return</span>;</span><br></pre></td></tr></table></figure>
+
+<h2 id="线程池的设计"><a href="#线程池的设计" class="headerlink" title="线程池的设计"></a>线程池的设计</h2><h3 id="select-poll和epoll"><a href="#select-poll和epoll" class="headerlink" title="select,poll和epoll"></a>select,poll和epoll</h3><p>(1)select==&gt;时间复杂度O(n)</p>
+<p>它仅仅知道了，有I/O事件发生了，却并不知道是哪那几个流（可能有一个，多个，甚至全部），我们只能无差别轮询所有流，找出能读出数据，或者写入数据的流，对他们进行操作。所以<strong>select具有O(n)的无差别轮询复杂度</strong>，同时处理的流越多，无差别轮询时间就越长。</p>
+<p>(2)poll==&gt;时间复杂度O(n)</p>
+<p>poll本质上和select没有区别，它将用户传入的数组拷贝到内核空间，然后查询每个fd对应的设备状态， <strong>但是它没有最大连接数的限制</strong>，原因是它是基于链表来存储的.</p>
+<p>(3)epoll==&gt;时间复杂度O(1)</p>
+<p><strong>epoll可以理解为event poll</strong>，不同于忙轮询和无差别轮询，epoll会把哪个流发生了怎样的I/O事件通知我们。所以我们说epoll实际上是<strong>事件驱动（每个事件关联上fd）</strong>的，此时我们对这些流的操作都是有意义的。<strong>（复杂度降低到了O(1)）</strong></p>
+<h3 id="epoll"><a href="#epoll" class="headerlink" title="epoll"></a>epoll</h3><p>而epoll通过在linux申请一个建议的文件系统，把select调用分为了三部分。</p>
+<p>1）调用epoll_create建立一个epoll对象，这个对象包含了一个红黑树和一个双向链表。并与底层建立回调机制。<br>2）调用epoll_ctl向epoll对象中添加这100万个连接的套接字<br>3）调用epoll_wait收集发生事件的连接。</p>
+<p>从上面的调用方式就可以看到epoll比select/poll的优越之处：select/poll每次调用时都要传递你所要监控的所有socket给select/poll系统调用，这意味着需要将用户态的socket列表copy到内核态，如果以万计的句柄会导致每次都要copy几十几百KB的内存到内核态，非常低效。而我们调用epoll_wait时就相当于以往调用select/poll，但是这时却不用传递socket句柄给内核，因为内核已经在epoll_ctl中拿到了要监控的句柄列表。</p>
+<p>一颗红黑树，一张准备就绪句柄链表，少量的内核cache，就帮我们解决了大并发下的socket处理问题。执行epoll_create时，创建了红黑树和就绪链表，执行epoll_ctl时，如果增加socket句柄，则检查在红黑树中是否存在，存在立即返回，不存在则添加到树干上，然后向内核注册回调函数，用于当中断事件来临时向准备就绪链表中插入数据。执行epoll_wait时立刻返回准备就绪链表里的数据即可。</p>
+<p>==epoll只拷贝一次连接的套接字给内核，select和poll每轮询一次，就要拷贝所有套接字给内核==</p>
+<p>两种触发模式：LT和ET</p>
+<p>LT模式下，只要一个句柄上的事件一次没有处理完，会在以后调用epoll_wait时次次返回这个句柄，而ET模式仅在第一次返回。</p>
+<p>这件事怎么做到的呢？<strong>当一个socket句柄上有事件时，内核会把该句柄插入上面所说的准备就绪list链表，这时我们调用epoll_wait，会把准备就绪的socket拷贝到用户态内存，然后清空准备就绪list链表，最后，epoll_wait干了件事，就是检查这些socket，如果不是ET模式（就是LT模式的句柄了），并且这些socket上确实有未处理的事件时，又把该句柄放回到刚刚清空的准备就绪链表了。所以，非ET的句柄，只要它上面还有事件，epoll_wait每次都会返回。而ET模式的句柄，除非有新中断到，即使socket上的事件没有处理完，也是不会次次从epoll_wait返回的。</strong></p>
+<p>==就是LT模式下socket有未处理的事情，就将其继续放回就绪链表，而ET模式就直接扔掉了==</p>
+<h3 id="函数指针"><a href="#函数指针" class="headerlink" title="函数指针"></a>函数指针</h3><p>基本使用方法：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">void</span> *(*thread_Proc) (<span class="keyword">void</span>*);</span><br><span class="line"><span class="function"><span class="keyword">void</span>*  <span class="title">frwk_ModuleProcess</span><span class="params">(<span class="keyword">void</span>* ulModuleIndex)</span></span>&#123;</span><br><span class="line">    xxxxxx;</span><br><span class="line">&#125;</span><br><span class="line">thread_Proc = frw_ModuleProcess;</span><br><span class="line"><span class="keyword">int</span> ulModuleIndex = <span class="number">0</span>;</span><br><span class="line">(*thread_Proc)(&amp;ulModuleIndex);</span><br></pre></td></tr></table></figure>
+
+<p>使用typedef</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="keyword">void</span> *(*thread_Proc) (<span class="keyword">void</span>*);</span><br><span class="line"><span class="function"><span class="keyword">void</span>*  <span class="title">frwk_ModuleProcess</span><span class="params">(<span class="keyword">void</span>* ulModuleIndex)</span></span>&#123;</span><br><span class="line">    xxxxxx;</span><br><span class="line">&#125;</span><br><span class="line">thread_Proc Proc;</span><br><span class="line">Proc = frw_ModuleProcess;</span><br><span class="line"><span class="keyword">int</span> ulModuleIndex = <span class="number">0</span>;</span><br><span class="line">(*Proc)(&amp;ulModuleIndex);</span><br></pre></td></tr></table></figure>
+
+<p>函数指针作为传参，函数作为实参</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="keyword">void</span> *(*thread_Proc) (<span class="keyword">void</span>*);</span><br><span class="line"><span class="function"><span class="keyword">void</span>*  <span class="title">frwk_ModuleProcess</span><span class="params">(<span class="keyword">void</span>* ulModuleIndex)</span></span>&#123;</span><br><span class="line">    xxxxxx;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">size_t</span>  frwk_CreateAThread (thread_Proc pProc)&#123;</span><br><span class="line">    *(pProc)();</span><br><span class="line">    xxx;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//调用函数frwk_CreateAThread，将frwk_ModuleProcess函数实参传进去</span></span><br><span class="line">frwk_CreateAThread(frwk_ModuleProcess)；</span><br></pre></td></tr></table></figure>
+
+<h3 id="WIN32的线程库"><a href="#WIN32的线程库" class="headerlink" title="WIN32的线程库"></a>WIN32的线程库</h3><p><strong>创建线程</strong></p>
+<ol>
+<li>函数原型：</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">HANDLE WINAPI CreateThread(</span><br><span class="line">  _In_opt_  LPSECURITY_ATTRIBUTES  lpThreadAttributes,   </span><br><span class="line">  _In_      SIZE_T                 dwStackSize,</span><br><span class="line">  _In_      LPTHREAD_START_ROUTINE lpStartAddress,</span><br><span class="line">  _In_opt_  LPVOID                 lpParameter,</span><br><span class="line">  _In_      DWORD                  dwCreationFlags,</span><br><span class="line">  _Out_opt_ LPDWORD                lpThreadId</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>参数说明：</li>
+</ol>
+<ul>
+<li>第一个参数 <code>lpThreadAttributes</code> 表示线程内核对象的安全属性，一般传入NULL表示使用默认设置。</li>
+<li>第二个参数 <code>dwStackSize</code> 表示线程栈空间大小。传入0表示使用默认大小（1MB）。</li>
+<li>第三个参数 <code>lpStartAddress</code> 表示新线程所执行的线程函数地址，多个线程可以使用同一个函数地址。</li>
+<li>第四个参数 <code>lpParameter</code> 是传给线程函数的参数。</li>
+<li>第五个参数 <code>dwCreationFlags</code> 指定额外的标志来控制线程的创建，为0表示线程创建之后立即就可以进行调度，如果为CREATE_SUSPENDED则表示线程创建后暂停运行，这样它就无法调度，直到调用ResumeThread()。</li>
+<li>第六个参数 <code>lpThreadId</code> 将返回线程的ID号，传入NULL表示不需要返回该线程ID号。</li>
+</ul>
+<p>3.返回值</p>
+<p>线程创建成功返回新线程的句柄，失败返回NULL</p>
+<p><strong>使用_beginthreadex()来代替使用CreateThread()，多个线程访问修改导致的数据覆盖问题</strong></p>
+<p><strong>设置线程权限</strong></p>
+<p>1、THREAD_PRIORITY_TIME_CRITICAL：Time-critical，关键时间（最高）</p>
+<p>2、THREAD_PRIORITY_HIGHEST：Highest，最高（其实是“次高”）</p>
+<p>3、THREAD_PRIORITY_ABOVE_NORMAL：Above normal，高于标准</p>
+<p>4、THREAD_PRIORITY_NORMAL：Normal，标准</p>
+<p>5、THREAD_PRIORITY_BELOW_NORMAL：Below normal，低于标准</p>
+<p>6、THREAD_PRIORITY_LOWEST：Lowest，最低（其实是“次低”）</p>
+<p>7、THREAD_PRIORITY_IDLE：Idle，空闲（最低）</p>
+<p>你可以呼叫GetTreadPriotiry函数取得一个特定线程的相对优先级。</p>
+<p>int GetThreadPriority(HANDLE hThread);      //函数返回上述7个取值</p>
+<p><strong>启动线程</strong></p>
+<p>ResumeThread(hHandle);</p>
+<p>这是在创建线程时创建的是挂起的线程</p>
+<h3 id="线程池"><a href="#线程池" class="headerlink" title="线程池"></a>线程池</h3><p>每个线程的静态属性由一个结构体描述</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">SYSTEM</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">        MID_E                  eMid;</span><br><span class="line">        UINT16                 usPriority;</span><br><span class="line">        UINT16                 usQueueLength;</span><br><span class="line">        UINT32                 ulHighQueLen;</span><br><span class="line">        UINT32                 ulStackSize;</span><br><span class="line">        module_OnInit          pfOnInit;</span><br><span class="line">        module_OnMessage       pfOnMessage;</span><br><span class="line">        module_OnTimer         pfOnTimer;</span><br><span class="line">&#125; SYSTEM_S;</span><br></pre></td></tr></table></figure>
+
+<p>eMid表示线程的ID</p>
+<p>usPriority表示线程的优先级</p>
+<p>最后三个是三个函数指针，表示线程中的三种函数，初始化，消息处理，定时</p>
+<p>每个线程的当前属性由一个结构体描述，它包括静态属性的指针和一些动态属性</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">MODULE_THREAD</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">        SYSTEM_S*             pstModule;</span><br><span class="line">        FRWK_MESSAGE_QUEUE_S* pastMessages;</span><br><span class="line">        FRWK_MESSAGE_QUEUE_S* pastHighMsgs;        </span><br><span class="line">        UINT32                ulMessageFirst;</span><br><span class="line">        UINT32                ulMessageLast;</span><br><span class="line">        UINT32                ulMessageCount;<span class="comment">//当前消息数</span></span><br><span class="line">        UINT32                ulHighMessageFirst;</span><br><span class="line">        UINT32                ulHighMessageLast;</span><br><span class="line">        UINT32                ulHighMessageCount;<span class="comment">//当前消息数        </span></span><br><span class="line">        FRWK_MUTEX_S          stIsEditing;</span><br><span class="line">        FRWK_MUTEX_S          stIsHighEditing;        </span><br><span class="line">        FRWK_SEM_S            stCanRunning;</span><br><span class="line"></span><br><span class="line">        UINT32                ulMsgPeak;     <span class="comment">//消息峰值数</span></span><br><span class="line">        UINT32                ulMsgLost;     <span class="comment">//丢失消息数</span></span><br><span class="line">        UINT32                ulMsgSum;      <span class="comment">//总消息数</span></span><br><span class="line">&#125; MODULE_THREAD_S;</span><br></pre></td></tr></table></figure>
+
+<p><strong>三个全局变量</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">MODULE_THREAD_S*  frwk_pastModuleThreads = FEMTO_NULL;</span><br><span class="line"></span><br><span class="line">UINT32 frwk_ulModuleNum = <span class="number">0</span>;</span><br><span class="line">SYSTEM_S *frwk_pstSysModules = FEMTO_NULL;</span><br></pre></td></tr></table></figure>
+
+<p>frwk_pastModuleThreads：存放整个线程池中所有线程的当前属性</p>
+<p>一般用一个临时的结构体pstModuleThread取出：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">MODULE_THREAD_S* pstModuleThread = FEMTO_NULL;</span><br><span class="line">pstModuleThread = &amp;frwk_pastModuleThreads[pastSystem[ulModuleIndex].eMid];</span><br></pre></td></tr></table></figure>
+
+<p>frwk_pstSysModules：存放所有线程的静态属性</p>
+<p>frwk_ulModuleNum：存放当前的线程数量</p>
+<h1 id="C的消息结构体设计"><a href="#C的消息结构体设计" class="headerlink" title="C的消息结构体设计"></a>C的消息结构体设计</h1><p>在传递消息时，我们往往使用消息结构体来组织消息，包括最基本的消息头，消息长度，以及消息本身。</p>
+<h2 id="含msg的结构体"><a href="#含msg的结构体" class="headerlink" title="含msg的结构体"></a>含msg的结构体</h2><p>通常我们可以设计成这样：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">recvpacket_</span>&#123;</span></span><br><span class="line">    <span class="keyword">uint32_t</span> head;</span><br><span class="line">    <span class="keyword">uint32_t</span> length;</span><br><span class="line">    <span class="keyword">uint8_t</span>* msg;</span><br><span class="line">&#125;Recvpacket;</span><br></pre></td></tr></table></figure>
+
+<p>我们可以通过msg指针来访问消息本身。</p>
+<p>但是当对方给的是数据流，仅有一个消息指针<code>uint8_t* in</code>时，我们需要解这个消息，首先将其强制转化成消息结构体，然后再去访问消息本身</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Recvpacket* recvpkg = (Recvpacket*)in;</span><br><span class="line">recvpkg-&gt;head;</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<p>这时候出现一个问题，就是强制转化的msg里面的值变成了消息结构体里数据指针的地址，而不是地址指向的值，因此我们有两种方法：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Recvpacket* recvpkg;</span><br><span class="line">recvpkg-&gt;head = *in;</span><br><span class="line">in += <span class="number">4</span>;</span><br><span class="line">recvpkg-&gt;length = *in;</span><br><span class="line">in += <span class="number">4</span>;</span><br><span class="line">recvpkg-&gt;msg = in;</span><br></pre></td></tr></table></figure>
+
+<p>或者我们重新定义结构体：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">recvpacket_</span>&#123;</span></span><br><span class="line">    <span class="keyword">uint32_t</span> head;</span><br><span class="line">    <span class="keyword">uint32_t</span> length;</span><br><span class="line">    <span class="keyword">uint8_t</span> msg[<span class="number">0</span>];</span><br><span class="line">&#125;Recvpacket;</span><br></pre></td></tr></table></figure>
+
+<p>再直接强制转化就行了</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Recvpacket* recvpkg = (Recvpacket*)in;</span><br><span class="line">recvpkg-&gt;head;</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;recvpkg-&gt;length;i++)&#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"%d "</span>, recvpkg-&gt;msg[i]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+    </div>
+</article>
+        </main>
+        <aside class="aside">
+            <div class="close"></div>
+            <section class="aside-section">
+                
+    <h1>Categories</h1>
+
+    
+
+            </section>
+            <section class="aside-section">
+                
+    <h1>Archives</h1>
+
+    <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019</a></li></ul>
+
+
+            </section>
+            <section class="aside-section tag">
+                
+    <h1>Tags</h1>
+
+    
+
+            </section>
+        </aside>
+    </div>
+</body>
+
+</html>
